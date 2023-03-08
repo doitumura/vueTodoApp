@@ -10,6 +10,10 @@ const addTodo = () => {
   todos.value.push({id: id++, text: newTodo.value})
   newTodo.value = ''
 }
+
+const removeTodo = (todo) => {
+  todos.value = todos.value.filter((t) => t !== todo)
+}
 </script>
 
 <template>
@@ -21,7 +25,8 @@ const addTodo = () => {
 
   <ul>
     <li v-for="todo in todos" :key="todo.id">
-      <p>{{todo.text}}</p>
+      <span>{{todo.text}}</span>
+      <button @click="removeTodo(todo)">削除</button>
     </li>
   </ul>
 </div>
