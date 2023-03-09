@@ -20,7 +20,6 @@ const editTodo = (todo) => {
 }
 
 const updateTodo = (todo) => {
-  console.log(todo)
   todo.edit = false
 }
 
