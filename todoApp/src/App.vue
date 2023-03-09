@@ -7,13 +7,23 @@ const newTodo = ref("");
 const todos = ref([]);
 
 const addTodo = () => {
-  todos.value.push({id: id++, text: newTodo.value})
+  todos.value.push({id: id++, text: newTodo.value, edit: false})
   newTodo.value = ''
 }
 
 const removeTodo = (todo) => {
   todos.value = todos.value.filter((t) => t !== todo)
 }
+
+const editTodo = (todo) => {
+  todo.edit = true;
+}
+
+const updateTodo = (todo) => {
+  console.log(todo)
+  todo.edit = false
+}
+
 </script>
 
 <template>
@@ -25,8 +35,15 @@ const removeTodo = (todo) => {
 
   <ul>
     <li v-for="todo in todos" :key="todo.id">
-      <span>{{todo.text}}</span>
-      <button @click="removeTodo(todo)">削除</button>
+      <form v-if="todo.edit" @submit.prevent="updateTodo(todo)">
+        <input v-model="todo.text">
+        <button>更新</button>
+      </form>
+      <div v-else>
+        <span>{{todo.text}}</span>
+        <button @click="editTodo(todo)">編集</button>
+        <button @click="removeTodo(todo)">削除</button>
+      </div>
     </li>
   </ul>
 </div>
