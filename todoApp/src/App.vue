@@ -1,8 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 let id = 0
-
 const newTodo = ref("");
 const todos = ref([]);
 
@@ -22,6 +21,19 @@ const editTodo = (todo) => {
 const updateTodo = (todo) => {
   todo.edit = false
 }
+
+const writeToLocalstorage = () => {
+  const todosJson = JSON.stringify(todos)
+  localStorage.setItem("todos", todosJson)
+  window.removeEventListener("beforeunload", writeToLocalstorage)
+}
+
+onMounted(() => {
+  const localStorageTodos = JSON.parse(localStorage.getItem("todos"))._value
+  if(localStorageTodos) todos.value = localStorageTodos
+
+  window.addEventListener("beforeunload", writeToLocalstorage)
+})
 
 </script>
 
