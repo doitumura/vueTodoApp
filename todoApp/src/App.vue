@@ -29,8 +29,8 @@ const writeToLocalstorage = () => {
 };
 
 onMounted(() => {
-  const localStorageTodos = JSON.parse(localStorage.getItem("todos"))._value;
-  if (localStorageTodos) todos.value = localStorageTodos;
+  const localStorageTodos = JSON.parse(localStorage.getItem("todos"));
+  if (localStorageTodos) todos.value = localStorageTodos._value;
 
   window.addEventListener("beforeunload", writeToLocalstorage);
 });
