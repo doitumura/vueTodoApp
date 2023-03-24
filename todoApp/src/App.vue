@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-let id = 0;
+let id = 1;
 const newTodo = ref("");
 const todos = ref([]);
 
