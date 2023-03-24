@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-let id = 1;
+let id;
 const newTodo = ref("");
 const todos = ref([]);
 
@@ -25,12 +25,23 @@ const updateTodo = (todo) => {
 const writeToLocalstorage = () => {
   const todosJson = JSON.stringify(todos);
   localStorage.setItem("todos", todosJson);
+
+  if(!id) id = 1;
+  localStorage.setItem("id", id);
+
   window.removeEventListener("beforeunload", writeToLocalstorage);
 };
 
 onMounted(() => {
   const localStorageTodos = JSON.parse(localStorage.getItem("todos"));
   if (localStorageTodos) todos.value = localStorageTodos._value;
+
+  const localStorageID = localStorage.getItem("id");
+  if(localStorageID) {
+    id = localStorageID;
+  } else {
+    id = 1;
+  }
 
   window.addEventListener("beforeunload", writeToLocalstorage);
 });
