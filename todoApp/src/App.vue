@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 let id;
 const newTodo = ref("");
@@ -22,28 +22,26 @@ const updateTodo = (todo) => {
   todo.edit = false;
 };
 
-const writeToLocalstorage = () => {
-  const todosJson = JSON.stringify(todos);
-  localStorage.setItem("todos", todosJson);
-
-  if(!id) id = 1;
-  localStorage.setItem("id", id);
-
-  window.removeEventListener("beforeunload", writeToLocalstorage);
-};
+watch(
+  todos,
+  (newTodos) => {
+    const todosJson = JSON.stringify(newTodos);
+    localStorage.setItem("todos", todosJson);
+    localStorage.setItem("id", id);
+  },
+  { deep: true }
+);
 
 onMounted(() => {
   const localStorageTodos = JSON.parse(localStorage.getItem("todos"));
-  if (localStorageTodos) todos.value = localStorageTodos._value;
+  if (localStorageTodos) todos.value = localStorageTodos;
 
   const localStorageID = localStorage.getItem("id");
-  if(localStorageID) {
+  if (localStorageID) {
     id = localStorageID;
   } else {
     id = 1;
   }
-
-  window.addEventListener("beforeunload", writeToLocalstorage);
 });
 </script>
 
