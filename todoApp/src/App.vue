@@ -36,12 +36,7 @@ onMounted(() => {
   const localStorageTodos = JSON.parse(localStorage.getItem("todos"));
   if (localStorageTodos) todos.value = localStorageTodos;
 
-  const localStorageID = localStorage.getItem("id");
-  if (localStorageID) {
-    id = localStorageID;
-  } else {
-    id = 1;
-  }
+  id = localStorage.getItem("id") || 1;
 });
 </script>
 
